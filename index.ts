@@ -39,3 +39,8 @@ try {
   fastify.log.error(err);
   process.exit(1);
 }
+
+export default async function handler(req: any, res: any) {
+  await fastify.ready();
+  fastify.server.emit("request", req, res);
+}
