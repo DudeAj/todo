@@ -1,25 +1,35 @@
 import type mongoose from "mongoose";
 import TaskModel from "../models/Task.js";
+import "../models/User.js";
 
-type ITodo = {content:string, author:any}
+interface ITodo {
+  content: string;
+  author: string | mongoose.Types.ObjectId;
+  completed?: boolean;
+}
 
 const TodoService = {
-    getAll(author:mongoose.Schema.Types.ObjectId) {
-        return TaskModel.find({author}).populate('author','name email').lean();
-    },
-    create(todo:ITodo) {
-        return TaskModel.create(todo);
-    },
-    update(id:mongoose.Schema.Types.ObjectId, todo:ITodo) {
-        return TaskModel.findOneAndUpdate(id,todo,{
-            new:true,
-            runValidators:true,
-        })
-    },
-    delete(id:mongoose.Schema.Types.ObjectId) {
-        return TaskModel.findByIdAndDelete(id);
-    }
-
-}
+  async getAll(author: string) {
+    return TaskModel.find({ author })
+      .populate("author", "name email")
+      .lean()
+      .exec();
+  },
+  async create(todo: ITodo) {
+    const newTodo = await TaskModel.create(todo);
+    return newTodo.toObject();
+  },
+  async update(id: string, todo: Partial<ITodo>) {
+    return TaskModel.findByIdAndUpdate(id, todo, {
+      new: true,
+      runValidators: true,
+    })
+      .lean()
+      .exec();
+  },
+  async delete(id: string) {
+    return TaskModel.findByIdAndDelete(id).lean().exec();
+  },
+};
 
 export default TodoService;
