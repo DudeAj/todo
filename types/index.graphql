@@ -1,0 +1,21 @@
+
+type Query {
+  tasks: [Task]
+  task(id: ID): Task
+  users: [User]
+  userById(id: ID): User
+}
+
+type Task {
+  userId: ID!
+  id: ID!
+  title: String
+  completed: Boolean
+}
+
+type User {
+  id: ID!
+  name: String
+  email: String
+  phone: String
+}

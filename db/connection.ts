@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-export const  connectDB =async () => {
+export const connectDB =async () => {
     if(!process?.env?.MONGO_URI) {
         console.log('Please provide connecting string');
         return;
