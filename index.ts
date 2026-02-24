@@ -44,18 +44,18 @@ fastify.get("/health", (request, reply) => {
 fastify.register(taskRoutes, { prefix: "/todos" });
 fastify.register(authRoutes, { prefix: "/auth" });
 
-const server = new ApolloServer({
-  typeDefs,
-  resolvers,
-  introspection:true
-});
+// const server = new ApolloServer({
+//   typeDefs,
+//   resolvers,
+//   introspection:true
+// });
 
-await server.start();
+// await server.start();
 
-await fastify.register(fastifyApollo(server), {
-  path: "/graphql",
-  // context: getMyContext,
-});
+// await fastify.register(fastifyApollo(server), {
+//   path: "/graphql",
+//   // context: getMyContext,
+// });
 
 // try {
 //   // await connectDB();
