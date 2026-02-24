@@ -57,15 +57,15 @@ await fastify.register(fastifyApollo(server), {
   // context: getMyContext,
 });
 
-try {
-  // await connectDB();
-  await fastify.listen({ port: 4000 });
-} catch (err) {
-  fastify.log.error(err);
-  process.exit(1);
-}
-
-// export default async function handler(req: any, res: any) {
-//   await fastify.ready();
-//   fastify.server.emit("request", req, res);
+// try {
+//   // await connectDB();
+//   await fastify.listen({ port: 4000 });
+// } catch (err) {
+//   fastify.log.error(err);
+//   process.exit(1);
 // }
+
+export default async function handler(req: any, res: any) {
+  await fastify.ready();
+  fastify.server.emit("request", req, res);
+}
