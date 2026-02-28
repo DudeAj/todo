@@ -11,7 +11,10 @@ import { resolvers } from "./resolvers/index.js";
 import { ApolloServer } from "@apollo/server";
 import fastifyApollo from "@as-integrations/fastify";
 import jwt from "jsonwebtoken";
-import { getMyContext, type UserPayload } from "./middleware/auth.middleware.js";
+import {
+  getMyContext,
+  type UserPayload,
+} from "./middleware/auth.middleware.js";
 
 const typeDefs = await readFile("./types/index.graphql", "utf-8");
 
@@ -44,21 +47,20 @@ fastify.get("/health", (request, reply) => {
 fastify.register(taskRoutes, { prefix: "/todos" });
 fastify.register(authRoutes, { prefix: "/auth" });
 
-// const server = new ApolloServer({
-//   typeDefs,
-//   resolvers,
-//   introspection:true
-// });
+const server = new ApolloServer<MyContext>({
+  typeDefs,
+  resolvers,
+});
 
-// await server.start();
+await server.start();
 
-// await fastify.register(fastifyApollo(server), {
-//   path: "/graphql",
-//   // context: getMyContext,
-// });
+await fastify.register(fastifyApollo(server), {
+  path: "/graphql",
+  context: getMyContext,
+});
 
 // try {
-//   // await connectDB();
+// await connectDB();
 //   await fastify.listen({ port: 4000 });
 // } catch (err) {
 //   fastify.log.error(err);
